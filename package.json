@@ -23,7 +23,8 @@
     "lint:types": "tsc --noEmit",
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\" --prefixColors auto",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -42,7 +43,7 @@
     "@ember/optional-features": "^2.2.0",
     "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^4.0.4",
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.19.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/environment-ember-loose": "^1.5.0",
@@ -78,11 +79,12 @@
     "ember-template-imports": "^4.2.0",
     "ember-template-lint": "^6.0.0",
     "ember-welcome-page": "^7.0.2",
-    "eslint": "^9.17.0",
+    "eslint": "^9.19.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-ember": "^12.3.3",
+    "eslint-plugin-ember": "^12.5.0",
     "eslint-plugin-n": "^17.15.1",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-qunit": "^8.1.2",
     "globals": "^15.14.0",
     "loader.js": "^4.7.0",
@@ -95,7 +97,7 @@
     "stylelint-prettier": "^5.0.2",
     "tracked-built-ins": "^3.4.0",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.2",
+    "typescript-eslint": "^8.22.0",
     "webpack": "^5.97.1"
   },
   "engines": {
