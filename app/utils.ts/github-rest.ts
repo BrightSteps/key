@@ -5,6 +5,7 @@ function trimUserData(userData: UserResponse): User {
     name: userData.name,
     login: userData.login,
     html_url: userData.html_url,
+    avatar_url: userData.avatar_url,
   };
 }
 

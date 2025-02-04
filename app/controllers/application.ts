@@ -1,16 +1,10 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
-import type SessionService from 'key/services/session';
-
 import { getOwner } from '@ember/owner';
 import Ember from 'ember';
-import { action } from '@ember/object';
 
 type Lookup = `${string}:${string}`;
 
 export default class ApplicationController extends Controller {
-  @service('session') declare sessionService: SessionService;
-
   constructor() {
     // eslint-disable-next-line prefer-rest-params
     super(...arguments);
@@ -29,14 +23,5 @@ export default class ApplicationController extends Controller {
         return app?.lookup(parsedItem as Lookup);
       };
     }
-  }
-
-  get isAuthenticated() {
-    return this.sessionService.isAuthenticated;
-  }
-
-  @action
-  logout() {
-    this.sessionService.invalidate();
   }
 }

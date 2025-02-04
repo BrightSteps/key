@@ -2,5 +2,5 @@
   {{repo}}
 {{/each}}
 {{#unless this.isAuthenticated}}
-  <LinkTo @route='pat.first'>Add token</LinkTo>
+  <LinkTo @route={{this.addTokenRouteName}}>Add token</LinkTo>
 {{/unless}}

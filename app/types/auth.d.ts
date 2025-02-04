@@ -1,4 +1,4 @@
-import { User } from './user.d.ts';
+import type { User } from './github-rest';
 
 interface TokenData {
   id: string;
