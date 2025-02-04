@@ -1,7 +1,6 @@
-{{page-title 'Key'}}
+{{#if this.isAuthenticated}}
+  <LinkTo @route='pat.authenticated.tokens'>see all</LinkTo>
+  <button type='button' {{on 'click' this.logout}}>Logout</button>
+{{/if}}
 
 {{outlet}}
-
-{{! The following component displays Ember's default welcome message. }}
-<WelcomePage />
-{{! Feel free to remove this! }}

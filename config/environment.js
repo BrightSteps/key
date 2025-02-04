@@ -44,5 +44,9 @@ module.exports = function (environment) {
     // here you can enable a production-specific feature
   }
 
+  ENV['ember-simple-auth'] = {
+    authenticator: 'authenticator:github-pat',
+  };
+
   return ENV;
 };

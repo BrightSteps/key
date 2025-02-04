@@ -7,5 +7,14 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  // Add route declarations here
+  // Personal Access Token Routes
+  this.route('pat', function () {
+    // login route
+    this.route('first', { path: '/add-token' });
+
+    // authenticated routes
+    this.route('authenticated', { path: '' }, function () {
+      this.route('tokens');
+    });
+  });
 });
