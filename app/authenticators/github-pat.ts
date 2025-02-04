@@ -3,11 +3,15 @@ import { Promise } from 'rsvp';
 import type { UserResponse } from 'key/types/github-rest';
 import type { SessionData, TokenData } from 'key/types/auth';
 import { trimUserData } from 'key/utils.ts/github-rest';
+import type RouterService from '@ember/routing/router-service';
+import { service } from '@ember/service';
 
 export const Authenticator = 'authenticator:github-pat';
 export type AuthenticatorType = typeof Authenticator;
 
 export default class GithubPatAuthenticator extends Base {
+  @service('router') declare routerService: RouterService;
+
   /**
    * Authenticates with GitHub using a single Personal Access Token (PAT).
    * If valid, it stores the token in an array to allow adding more tokens later.
@@ -54,6 +58,9 @@ export default class GithubPatAuthenticator extends Base {
           tokens: tokenData,
         };
         resolve(sessionData);
+
+        // Refresh the app to reflect the new tokens.
+        this.routerService.refresh();
       }
     });
   }
