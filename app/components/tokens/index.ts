@@ -16,7 +16,7 @@ export default class TokensIndexComponent extends Component {
   reauthenticateToken(tokenToReauthenticate: string) {
     this.tokenManagerService
       .reauthenticateToken(tokenToReauthenticate)
-      .catch((error) => {})
+      .catch(() => {})
       .finally(() => {});
   }
 
@@ -27,6 +27,6 @@ export default class TokensIndexComponent extends Component {
 
   @action
   addToken(tokenToAdd: string) {
-    this.tokenManagerService.addToken(tokenToAdd).catch((error) => {});
+    this.tokenManagerService.addToken(tokenToAdd).catch(() => {});
   }
 }

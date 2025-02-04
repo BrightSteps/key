@@ -17,7 +17,7 @@ export default class TokenManagerService extends Service {
       tokens = authenticatedData.tokens || [],
       updatedTokens = tokens.filter(({ id }) => id !== tokenToRemove);
 
-    this.sessionService.updateTokens(updatedTokens).catch((error) => {});
+    this.sessionService.updateTokens(updatedTokens).catch(() => {});
   }
 
   /**
@@ -50,7 +50,7 @@ export default class TokenManagerService extends Service {
       return tokenObj;
     });
 
-    this.sessionService.updateTokens(updatedTokens).catch((error) => {});
+    this.sessionService.updateTokens(updatedTokens).catch(() => {});
 
     return { id: tokenToReauthenticate, user: userData };
   }
@@ -83,13 +83,13 @@ export default class TokenManagerService extends Service {
 
     // Retrieve existing tokens and check for duplicates.
     const tokens = this.sessionService.data.authenticated.tokens || [];
-    if (tokens.find((tokenObj) => tokenObj.token === newToken)) {
+    if (tokens.find((tokenObj) => tokenObj.id === newToken)) {
       throw new Error('Token already exists in your session');
     }
 
     // Append the new token.
     tokens.push({ id: newToken, user: userData });
-    this.sessionService.updateTokens(tokens).catch((error) => {});
+    this.sessionService.updateTokens(tokens).catch(() => {});
     return { id: newToken, user: userData };
   }
 }

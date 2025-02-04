@@ -1,18 +1,15 @@
 {{#each this.tokens as |token|}}
   {{token.user.name}}
   <button
-    type="button"
+    type='button'
     {{on 'click' (fn this.invalidateToken token.id)}}
   >revoke</button>
 
   <button
-    type="button"
+    type='button'
     {{on 'click' (fn this.reauthenticateToken token.id)}}
   >reauthenticate</button>
   <br />
 {{/each}}
 
-  <button
-    type="button"
-    {{on 'click' (fn this.addToken 'abc')}}
-  >add</button>
+<button type='button' {{on 'click' (fn this.addToken 'abc')}}>add</button>
