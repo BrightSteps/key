@@ -16,4 +16,17 @@ export default class CustomSessionService extends SimpleAuthSessionService<Data>
   get tokens() {
     return this.data.authenticated.tokens || [];
   }
+
+  updateTokens(tokens: TokenData[]) {
+    const promise = new Promise((resolve) => {
+      if (tokens.length) {
+        resolve(this.authenticate(this.authenticator, tokens));
+      } else {
+        this.invalidate();
+        resolve('ok');
+      }
+    });
+
+    return promise;
+  }
 }

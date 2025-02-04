@@ -17,18 +17,7 @@ export default class TokenManagerService extends Service {
       tokens = authenticatedData.tokens || [],
       updatedTokens = tokens.filter(({ id }) => id !== tokenToRemove);
 
-    // const updatedAuthenticatedData = {
-    //   ...authenticatedData,
-    //   tokens: updatedTokens,
-    // }
-
-    // this.sessionService.set('data', {
-    //   authenticated: updatedAuthenticatedData,
-    // });
-
-    // this.sessionService.set('data.authenticated', updatedAuthenticatedData);
-
-    this.sessionService.set('data.authenticated.tokens', updatedTokens); // TODO debug
+    this.sessionService.updateTokens(updatedTokens).catch((error) => {});
   }
 
   /**
@@ -55,13 +44,14 @@ export default class TokenManagerService extends Service {
 
     const tokens = this.sessionService.data.authenticated.tokens || [];
     const updatedTokens = tokens.map((tokenObj) => {
-      if (tokenObj.token === tokenToReauthenticate) {
+      if (tokenObj.id === tokenToReauthenticate) {
         return { id: tokenToReauthenticate, user: userData };
       }
       return tokenObj;
     });
 
-    this.sessionService.set('data.authenticated.tokens', updatedTokens);
+    this.sessionService.updateTokens(updatedTokens).catch((error) => {});
+
     return { id: tokenToReauthenticate, user: userData };
   }
 
@@ -99,8 +89,7 @@ export default class TokenManagerService extends Service {
 
     // Append the new token.
     tokens.push({ id: newToken, user: userData });
-    this.sessionService.set('data.authenticated.tokens', tokens);
-
+    this.sessionService.updateTokens(tokens).catch((error) => {});
     return { id: newToken, user: userData };
   }
 }

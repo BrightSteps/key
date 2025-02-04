@@ -11,3 +11,8 @@
   >reauthenticate</button>
   <br />
 {{/each}}
+
+  <button
+    type="button"
+    {{on 'click' (fn this.addToken 'abc')}}
+  >add</button>
