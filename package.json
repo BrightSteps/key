@@ -44,6 +44,9 @@
     "@ember/optional-features": "^2.2.0",
     "@ember/string": "^4.0.0",
     "@ember/test-helpers": "^4.0.4",
+    "@embroider/compat": "^3.8.0",
+    "@embroider/core": "^3.5.0",
+    "@embroider/webpack": "^4.0.9",
     "@eslint/js": "^9.19.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
@@ -107,5 +110,11 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.0.3",
+    "postcss": "^8.5.1",
+    "postcss-loader": "^8.1.1",
+    "tailwindcss": "^4.0.3"
   }
 }
