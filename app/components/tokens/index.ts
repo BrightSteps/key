@@ -27,9 +27,4 @@ export default class TokensIndexComponent extends Component {
   invalidateToken(tokenToRemove: string) {
     this.tokenManagerService.invalidateToken(tokenToRemove);
   }
-
-  @action
-  addToken(tokenToAdd: string) {
-    this.tokenManagerService.addToken(tokenToAdd).catch(() => {});
-  }
 }

@@ -7,7 +7,7 @@ import { action } from '@ember/object';
 export const enum RouteName {
   INDEX = 'index',
   TOKENS = 'pat.authenticated.tokens',
-  ADD_TOKEN = 'pat.first',
+  ADD_TOKEN = 'pat.add',
 }
 
 const routeDetails = {

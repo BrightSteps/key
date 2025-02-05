@@ -1,8 +1,13 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        40: '40%',
+      },
+    },
   },
   variants: {},
   plugins: [],
-}
+};

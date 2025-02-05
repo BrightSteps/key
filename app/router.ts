@@ -10,7 +10,7 @@ Router.map(function () {
   // Personal Access Token Routes
   this.route('pat', function () {
     // login route
-    this.route('first', { path: '/add-token' });
+    this.route('add', { path: '/add-token' });
 
     // authenticated routes
     this.route('authenticated', { path: '' }, function () {
