@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import type SessionService from 'key/services/session';
 import type { UserResponse } from 'key/types/github-rest';
 import { trimUserData } from 'key/utils.ts/github-rest';
+import { Authenticator } from 'key/authenticators/github-pat';
 
 export default class TokenManagerService extends Service {
   @service('session') declare sessionService: SessionService;
@@ -63,33 +64,7 @@ export default class TokenManagerService extends Service {
    * @returns {Promise<Object>} - Resolves with the token object if successful.
    */
   async addToken(newToken: string) {
-    if (!newToken) {
-      throw new Error('No token provided');
-    }
-
-    // First, validate the new token with GitHub's API.
-    const response = await fetch('https://api.github.com/user', {
-      headers: { Authorization: `token ${newToken}` },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to validate token: ${response.statusText}`);
-    }
-
-    const userData = (await response.json()) as UserResponse;
-    if (!userData.login) {
-      throw new Error('Invalid token');
-    }
-
-    // Retrieve existing tokens and check for duplicates.
-    const tokens = this.sessionService.data.authenticated.tokens || [];
-    if (tokens.find((tokenObj) => tokenObj.id === newToken)) {
-      throw new Error('Token already exists in your session');
-    }
-
-    // Append the new token.
-    tokens.push({ id: newToken, user: userData });
-    this.sessionService.updateTokens(tokens).catch(() => {});
-    return { id: newToken, user: userData };
+    const tokens = this.sessionService.tokens;
+    return this.sessionService.authenticate(Authenticator, newToken, tokens); // TODO catch
   }
 }

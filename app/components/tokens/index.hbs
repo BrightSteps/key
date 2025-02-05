@@ -1,5 +1,4 @@
 <ul role='list' class='divide-y divide-gray-100'>
-
   {{#each this.tokens as |token|}}
     <li class='flex justify-between gap-x-6 py-5'>
       <div class='flex min-w-0 gap-x-4'>
@@ -20,10 +19,10 @@
       <div class='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
         <div class='inline-flex rounded-md shadow-xs' role='group'>
           <button type='button' disabled {{on 'click' (fn this.reauthenticateToken token.id)}} class='{{this.actionsClasses}} rounded-s-lg opacity-50 cursor-not-allowed'>
-            reauthenticate
+            Refresh Data
           </button>
-          <button type='button' {{on 'click' (fn this.invalidateToken token.id)}} class='{{this.actionsClasses}} rounded-e-lg'>
-            revoke
+          <button type='button' {{on 'click' (fn this.invalidateToken token.id)}} class='{{this.actionsClasses}} rounded-e-lg hover:text-red-600'>
+            Revoke
           </button>
         </div>
       </div>

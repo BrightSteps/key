@@ -12,6 +12,22 @@ export type AuthenticatorType = typeof Authenticator;
 export default class GithubPatAuthenticator extends Base {
   @service('router') declare routerService: RouterService;
 
+  resoveSessionData = (
+    resolve: (value?: unknown) => void,
+    tokenData: TokenData[],
+    isFirstToken: boolean = false
+  ) => {
+    const sessionData: SessionData = {
+      tokens: tokenData,
+    };
+    resolve(sessionData);
+
+    if (!isFirstToken) {
+      // Refresh the app to reflect the new tokens.
+      this.routerService.refresh();
+    }
+  };
+
   /**
    * Authenticates with GitHub using a single Personal Access Token (PAT).
    * If valid, it stores the token in an array to allow adding more tokens later.
@@ -19,15 +35,22 @@ export default class GithubPatAuthenticator extends Base {
    * @param {String} token - The GitHub Personal Access Token.
    * @returns {Promise<Object>} Resolves with an object containing an array of tokens.
    */
-  authenticate(tokenData: string | TokenData[]) {
+  authenticate(token: string, existingTokenData: TokenData[] = []) {
     return new Promise((resolve, reject) => {
-      if (!tokenData) {
-        return reject('No token provided');
-      }
+      const hasExistingTokenData = existingTokenData.length > 0;
 
-      if (typeof tokenData === 'string') {
-        fetch('https://api.github.com/user', {
-          headers: { Authorization: `token ${tokenData}` },
+      if (token) {
+        const rejectWithReason = (reason: string) => {
+          if (hasExistingTokenData) {
+            this.resoveSessionData(resolve, existingTokenData);
+          } else {
+            reject(reason);
+          }
+        };
+
+        // Validate the token by fetching the user data
+        fetch('https://api.gaithub.com/user', {
+          headers: { Authorization: `token ${token}` },
         })
           .then((response) => {
             if (!response.ok) {
@@ -37,30 +60,26 @@ export default class GithubPatAuthenticator extends Base {
           })
           .then((data: UserResponse) => {
             if (data.login) {
-              // Wrap the token and user data in an array.
-              const sessionData: SessionData = {
-                tokens: [
-                  {
-                    id: tokenData,
-                    user: trimUserData(data),
-                  },
-                ],
-              };
-              resolve(sessionData);
+              const tokens = [
+                ...(hasExistingTokenData ? existingTokenData : []),
+                {
+                  id: token,
+                  user: trimUserData(data),
+                },
+              ];
+              this.resoveSessionData(resolve, tokens, !hasExistingTokenData);
             } else {
-              reject('Invalid token');
+              rejectWithReason('Invalid token');
             }
           })
-          .catch(() => reject('Authentication failed'));
-      } else if (Array.isArray(tokenData)) {
-        // If the token is an array, assume it's a list of tokens.
-        const sessionData: SessionData = {
-          tokens: tokenData,
-        };
-        resolve(sessionData);
-
-        // Refresh the app to reflect the new tokens.
-        this.routerService.refresh();
+          .catch(() => {
+            rejectWithReason('Authentication failed');
+          });
+      } else if (hasExistingTokenData) {
+        // If there's existing token data, refresh the session with it.
+        this.resoveSessionData(resolve, existingTokenData);
+      } else {
+        return reject('No token data provided');
       }
     });
   }

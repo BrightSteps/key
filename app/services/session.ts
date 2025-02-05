@@ -20,7 +20,7 @@ export default class CustomSessionService extends SimpleAuthSessionService<Data>
   updateTokens(tokens: TokenData[]) {
     const promise = new Promise((resolve) => {
       if (tokens.length) {
-        resolve(this.authenticate(this.authenticator, tokens));
+        resolve(this.authenticate(this.authenticator, '', tokens));
       } else {
         this.invalidate();
         resolve('ok');
