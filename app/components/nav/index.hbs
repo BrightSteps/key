@@ -6,7 +6,7 @@
       >
         <div class='flex shrink-0 items-center'>
           <div
-            class='h-8 w-auto [&>svg]:w-auto [&>svg]:h-full [&>svg]:fill-indigo-700'
+            class='h-8 w-auto [&>svg]:w-auto [&>svg]:h-full [&>svg]:fill-sky-700'
           >
             <Icons::Logo />
           </div>
@@ -33,7 +33,7 @@
           <button
             type='button'
             {{on 'click' this.revokeTokens}}
-            class='inline-flex items-center px-2 py-1 text-sm text-gray-900 hover:bg-gray-700 hover:text-white rounded-md hover:bg-indigo-700 focus:outline-none [&>svg]:w-6 [&>svg]:h-6 [&>svg]:ml-2'
+            class={{this.tokenButtonClasses}}
           >
             {{this.revokeTokensText}}
             <Icons::Logout />
@@ -43,7 +43,7 @@
             <button
               type='button'
               {{on 'click' this.addToken}}
-              class='inline-flex items-center px-2 py-1 text-sm text-gray-900 hover:bg-gray-200 rounded-md focus:outline-none [&>svg]:w-6 [&>svg]:h-6 [&>svg]:ml-2'
+              class={{this.tokenButtonClasses}}
             >
               Add a token
               <Icons::Login />

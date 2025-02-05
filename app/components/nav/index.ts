@@ -40,6 +40,9 @@ export default class NavIndexComponent extends Component {
   @service('session') declare sessionService: SessionService;
   @service('router') declare routerService: RouterService;
 
+  tokenButtonClasses =
+    'inline-flex items-center px-2 py-1 text-sm text-gray-900 hover:bg-gray-200 rounded-md focus:outline-none [&>svg]:w-6 [&>svg]:h-6 [&>svg]:ml-2';
+
   get navigationLinks() {
     return navigationLinks
       .filter((route) => (route.requiresAuth ? this.isAuthenticated : true))
@@ -49,8 +52,8 @@ export default class NavIndexComponent extends Component {
           ...l,
           isActive,
           classes: isActive
-            ? 'bg-indigo-700 text-white'
-            : 'text-gray-900 hover:bg-indigo-500 hover:text-white',
+            ? 'bg-sky-700 text-white'
+            : 'text-gray-900 hover:bg-sky-500 hover:text-white',
         };
       });
   }

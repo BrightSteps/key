@@ -49,7 +49,7 @@ export default class GithubPatAuthenticator extends Base {
         };
 
         // Validate the token by fetching the user data
-        fetch('https://api.gaithub.com/user', {
+        fetch('https://api.github.com/user', {
           headers: { Authorization: `token ${token}` },
         })
           .then((response) => {
