@@ -9,6 +9,7 @@ import type { TokenData } from 'key/types/auth';
 import { debounce } from '@ember/runloop';
 import { FilterModel, Privacy } from './list/filter';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Args {}
 
 export default class ReposExplorerComponent extends Component<Args> {
@@ -51,6 +52,7 @@ export default class ReposExplorerComponent extends Component<Args> {
   }
 
   debouncedSearch() {
+    // eslint-disable-next-line ember/no-runloop, @typescript-eslint/unbound-method
     debounce(this, this.search, 1000);
   }
 
@@ -78,7 +80,7 @@ export default class ReposExplorerComponent extends Component<Args> {
     filtered = filtered.filter((repo) =>
       this.filter.language === 'All'
         ? true
-        : repo.languagesArray?.some((l) => (l = this.filter.language))
+        : repo.languagesArray?.some((l) => l === this.filter.language)
     );
 
     return filtered;
@@ -119,7 +121,7 @@ export default class ReposExplorerComponent extends Component<Args> {
       this.errorMessage = null;
       this.githubService
         .fetchRepos(this.token, this.organizationName)
-        .catch((e) => {
+        .catch(() => {
           this.errorMessage = 'Failed to fetch repositories. Please try again.';
           setTimeout(() => {
             this.errorMessage = null;

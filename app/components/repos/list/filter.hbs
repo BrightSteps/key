@@ -18,13 +18,14 @@
       class='flex space-x-2 items-center justify-left w-full flex-wrap gap-y-2 mb-4'
     >
       {{#each @languageOptions as |option|}}
-        <div
+        <button
+          type='button'
           {{on 'click' (fn this.changeLanguageFilter option.value)}}
           class='{{option.activeClass}}
             inline-flex items-center justify-between space-x-1 bg-sky-100 text-sky-800 px-2 py-0.5 rounded-md text-sm'
         >
           {{option.value}}
-        </div>
+        </button>
       {{/each}}
     </div>
   {{/if}}

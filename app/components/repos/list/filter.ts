@@ -25,7 +25,7 @@ export default class ReposListFilterComponent extends Component<Args> {
   }
 
   get showLanguageOptions() {
-    return this.args.languageOptions.length > 2;
+    return this.args.languageOptions.length > 1;
   }
 
   @action
