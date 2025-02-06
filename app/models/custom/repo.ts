@@ -1,5 +1,5 @@
 import { tracked } from '@glimmer/tracking';
-import type { Branch, Languages, Repo as RepoObj } from 'key/types/github';
+import type { Languages, Repo as RepoObj } from 'key/types/github';
 
 export class Repo {
   id;

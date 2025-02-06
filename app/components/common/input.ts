@@ -70,7 +70,7 @@ export default class CommonInputComponent extends Component<Args> {
   @action
   handleChange(event: Event) {
     const target = event.target as HTMLInputElement;
-    this.value = target?.value ?? ''; // TODO trim, validate regex, sanitize
+    this.value = target?.value.trim() ?? ''; // TODO DOMPurify.sanitize(value)
     this.args.onValueChange(this.value);
   }
 }

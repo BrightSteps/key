@@ -34,11 +34,8 @@ export default class ReposSearchComponent extends Component<Args> {
 
   @action
   handleTokenChange(event: Event) {
-    const target = event.target as HTMLInputElement,
-      value = target?.value ?? '';
-
-    this.token = value; // TODOOOOOO
-
+    const target = event.target as HTMLInputElement;
+    this.token = target?.value.trim() ?? '';
     this.args.onTokenChange(this.token);
   }
 }

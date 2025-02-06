@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import type SessionService from 'key/services/session';
 import { Authenticator } from 'key/authenticators/github-pat';
-import type TokenManagerService from 'key/services/token-manager';
 
 interface Args {
   heading: string;
@@ -14,9 +13,10 @@ interface Args {
 
 export default class TokensAddComponent extends Component<Args> {
   @service('session') declare sessionService: SessionService;
-  @service('token-manager') declare tokenManagerService: TokenManagerService;
 
   @tracked token = '';
+  @tracked errorMessage = '';
+  @tracked isLoading = false;
 
   get maxInputWidth() {
     return this.args.maxInputWidth ?? '';
@@ -28,18 +28,35 @@ export default class TokensAddComponent extends Component<Args> {
   }
 
   @action
-  async addToken(event: Event) {
+  addToken(event: Event) {
     event.preventDefault();
-    try {
-      if (this.sessionService.tokens.length) {
-        this.tokenManagerService.addToken(this.token).catch(() => {});
-      } else {
-        await this.sessionService.authenticate(Authenticator, this.token);
-      }
-      // TODO clear inout value
-    } catch (error) {
-      // TODO handle error
-      alert(error);
-    }
+    this.isLoading = true;
+
+    const handleSuccess = () => {
+      this.token = '';
+      this.isLoading = false;
+      (document.getElementById('token') as HTMLInputElement).value = ''; // Clear the input value
+    };
+
+    const handleError = (error: string) => {
+      this.errorMessage = error || 'Failed to add token. Please try again.';
+      this.isLoading = false;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 5000);
+    };
+
+    const request = this.sessionService.tokens.length
+      ? this.sessionService.addToken(this.token, handleError)
+      : this.sessionService.authenticate(
+          Authenticator,
+          this.token,
+          [],
+          handleError
+        );
+
+    request
+      .then(handleSuccess)
+      .catch(() => handleError('Failed to add token. Please try again.'));
   }
 }

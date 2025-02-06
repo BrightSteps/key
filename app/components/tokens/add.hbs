@@ -23,9 +23,13 @@
       <button
         class='z-[2] inline-block rounded-e px-6 pb-[6px] pt-2 border-2 border-transparent leading-normal bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-sky-500'
         type='submit'
+        disabled={{this.isLoading}}
       >
-        Add
+        {{#if this.isLoading}}Loading...{{else}}Add{{/if}}
       </button>
     </div>
+    {{#if this.errorMessage}}
+      <p class='mt-2 text-sm text-red-600'>{{this.errorMessage}}</p>
+    {{/if}}
   </form>
 </div>

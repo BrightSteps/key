@@ -17,16 +17,29 @@ export default class CustomSessionService extends SimpleAuthSessionService<Data>
     return this.data.authenticated.tokens || [];
   }
 
-  updateTokens(tokens: TokenData[]) {
-    const promise = new Promise((resolve) => {
+  updateTokens(tokens: TokenData[], errorHandler?: (error: string) => void) {
+    return new Promise((resolve, reject) => {
       if (tokens.length) {
-        resolve(this.authenticate(this.authenticator, '', tokens));
+        this.authenticate(this.authenticator, '', tokens, errorHandler)
+          .then(resolve)
+          .catch(reject);
       } else {
         this.invalidate();
-        resolve('ok');
+        resolve('done');
       }
     });
+  }
 
-    return promise;
+  invalidateToken(tokenToRemove: string) {
+    const authenticatedData = this.data.authenticated,
+      tokens = authenticatedData.tokens || [],
+      updatedTokens = tokens.filter(({ id }) => id !== tokenToRemove);
+
+    return this.updateTokens(updatedTokens);
+  }
+
+  async addToken(newToken: string, errorHandler?: (error: string) => void) {
+    const tokens = this.tokens;
+    return this.authenticate(Authenticator, newToken, tokens, errorHandler);
   }
 }
