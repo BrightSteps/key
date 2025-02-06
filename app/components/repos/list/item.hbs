@@ -33,7 +33,7 @@
           class='flex text-sm/6 text-gray-900 [&>svg]:w-6 [&>svg]:h-6 [&>svg]:ml-2'
         ><Icons::Branch />
           <span
-            class='inline-block bg-blue-500 text-white text-xs px-2 py-1 rounded-full'
+            class='inline-block bg-sky-500 text-white text-xs px-2 py-1 rounded-full'
           >
             {{@repo.branches.length}}
           </span>
@@ -46,6 +46,14 @@
     <div>
       <div class='mt-6 border-t border-gray-100'>
         <dl class='divide-y divide-gray-100'>
+          <div>
+            <a
+              href={{@repo.htmlUrl}}
+              target='_blank'
+              rel='noopener noreferrer'
+              class='text-sky-600'
+            >{{@repo.htmlUrl}}</a>
+          </div>
           <div class='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
             <dt class='text-sm/6 font-medium text-gray-900'>Branches</dt>
             <dd class='mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0'>
