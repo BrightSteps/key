@@ -24,7 +24,7 @@ export default class GithubService extends Service {
       return Promise.reject(new Error('Missing organization name or token'));
     }
 
-    const key = `${token.id}__${organizationName}`,
+    const key = `${token.id}__${organizationName}_${token.user.login}`,
       encodedKey = btoa(key),
       cachedPromise = this.organizationRequests[encodedKey];
 
