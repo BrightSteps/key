@@ -4,15 +4,23 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import type SessionService from 'key/services/session';
 import { Authenticator } from 'key/authenticators/github-pat';
+import { RouteName } from '../nav';
 
 interface Args {
   heading: string;
   info: string;
   maxInputWidth?: string;
+  showCtaInstead?: boolean;
 }
 
 export default class TokensAddComponent extends Component<Args> {
   @service('session') declare sessionService: SessionService;
+  linkTo: string;
+
+  constructor(owner: unknown, args: Args) {
+    super(owner, args);
+    this.linkTo = RouteName.ADD_TOKEN;
+  }
 
   @tracked token = '';
   @tracked errorMessage = '';
