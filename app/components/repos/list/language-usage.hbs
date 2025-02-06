@@ -1,0 +1,11 @@
+<div class="p-4 bg-white rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Language Usage</h2>
+  <ul>
+    {{#each this.languagePercentages as |lang|}}
+      <li class="flex justify-between mb-2">
+        <span>{{lang.language}}</span>
+        <span>{{lang.percentage}}%</span>
+      </li>
+    {{/each}}
+  </ul>
+</div>

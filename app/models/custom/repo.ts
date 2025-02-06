@@ -1,0 +1,31 @@
+import { tracked } from '@glimmer/tracking';
+import type { Branch, Languages, Repo as RepoObj } from 'key/types/github';
+
+export class Repo {
+  id;
+  name;
+  htmlUrl;
+  isPrivate;
+  organizationName;
+  @tracked branches: string[] | null | undefined = undefined;
+  @tracked languages: Languages | null | undefined = undefined;
+  @tracked requestedBy;
+
+  constructor(repo: RepoObj, organizationName: string, requestedBy: string) {
+    this.id = repo.id;
+    this.name = repo.name;
+    this.htmlUrl = repo.html_url;
+    this.isPrivate = repo.private;
+    this.organizationName = organizationName;
+    this.requestedBy = new Set();
+    this.requestedBy.add(requestedBy);
+  }
+
+  addToRequestedBy(requestedBy: string) {
+    this.requestedBy.add(requestedBy);
+  }
+
+  removeFromRequestedBy(requestedBy: string) {
+    this.requestedBy.add(requestedBy);
+  }
+}

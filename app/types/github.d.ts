@@ -16,4 +16,12 @@ export interface Repo {
   private: boolean;
 }
 
+export interface Branch {
+  name: string;
+}
+
+export type Languages = {
+  [key: string]: number;
+};
+
 export type GetRepoResponse = Repo[];
