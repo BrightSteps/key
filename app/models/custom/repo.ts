@@ -21,11 +21,27 @@ export class Repo {
     this.requestedBy.add(requestedBy);
   }
 
+  get mostPopularLanguage(): string | null {
+    const languages = this.languages || {};
+    if (!languages) {
+      return '';
+    }
+
+    const sortedLanguages = Object.entries(languages).sort(
+      ([, a], [, b]) => b - a
+    );
+    return sortedLanguages.length > 0 ? sortedLanguages[0][0] : '';
+  }
+
+  get languagesArray(): string[] | null {
+    return this.languages ? Object.keys(this.languages) : [];
+  }
+
   addToRequestedBy(requestedBy: string) {
     this.requestedBy.add(requestedBy);
   }
 
   removeFromRequestedBy(requestedBy: string) {
-    this.requestedBy.add(requestedBy);
+    this.requestedBy.delete(requestedBy);
   }
 }

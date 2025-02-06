@@ -10,7 +10,7 @@ interface LanguageUsageObj {
   percentage: number;
 }
 
-export default class LanguageUsage extends Component<LanguageUsageArgs> {
+export default class ReposListLanguageUsage extends Component<LanguageUsageArgs> {
   languagePercentages: LanguageUsageObj[] = [];
 
   constructor(owner: unknown, args: LanguageUsageArgs) {
@@ -19,7 +19,12 @@ export default class LanguageUsage extends Component<LanguageUsageArgs> {
   }
 
   calculatePercentages() {
-    const { languages } = this.args;
+    const { languages } = this.args || {};
+
+    if (!languages) {
+      return [];
+    }
+
     const total = Object.values(languages).reduce(
       (sum, value) => sum + value,
       0

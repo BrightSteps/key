@@ -86,27 +86,42 @@ export default class GithubService extends Service {
       }
     });
 
-    promiseSequence(
-      requestQueue.flatMap((item) => item.urls.map((url) => [url, token])),
-      (url: string, token: string) => this.fetch(url, token)
-    )
-      .then((result) => {
-        result.results.forEach((data, index) => {
-          const repoIndex = Math.floor(index / 2);
-          const repoName = requestQueue[repoIndex]?.repoName;
-          const repo = repos.find((r) => r.name === repoName);
-          if (repo) {
-            if (index % 2 === 0) {
-              repo.branches = data
-                ? (data as Branch[]).map((b) => b.name)
-                : null;
-            } else {
-              repo.languages = data ? (data as Languages) : null;
+    const batchSize = 1;
+
+    const processBatch = async (
+      batch: { repoName: string; urls: string[] }[]
+    ) => {
+      await promiseSequence(
+        batch.flatMap((item) => item.urls.map((url) => [url, token])),
+        (url: string, token: string) => this.fetch(url, token)
+      )
+        .then((result) => {
+          result.results.forEach((data, index) => {
+            const repoIndex = Math.floor(index / 2);
+            const repoName = batch[repoIndex]?.repoName;
+            const repo = repos.find((r) => r.name === repoName);
+            if (repo) {
+              if (index % 2 === 0) {
+                repo.branches = data
+                  ? (data as Branch[]).map((b) => b.name)
+                  : null;
+              } else {
+                repo.languages = data ? (data as Languages) : null;
+              }
             }
-          }
-        });
-      })
-      .catch(() => {});
+          });
+        })
+        .catch(() => {});
+    };
+
+    const processQueue = async () => {
+      for (let i = 0; i < requestQueue.length; i += batchSize) {
+        const batch = requestQueue.slice(i, i + batchSize);
+        await processBatch(batch);
+      }
+    };
+
+    processQueue().catch(() => {});
 
     this.repos = repos;
   }
