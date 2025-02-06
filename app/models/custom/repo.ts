@@ -30,7 +30,7 @@ export class Repo {
     const sortedLanguages = Object.entries(languages).sort(
       ([, a], [, b]) => b - a
     );
-    return sortedLanguages.length > 0 ? sortedLanguages[0][0] : '';
+    return sortedLanguages.length > 0 ? (sortedLanguages[0]?.[0] ?? '') : '';
   }
 
   get languagesArray(): string[] | null {
