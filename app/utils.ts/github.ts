@@ -1,4 +1,4 @@
-import type { User, UserResponse } from 'key/types/github-rest';
+import type { User, UserResponse } from 'key/types/github';
 
 function trimUserData(userData: UserResponse): User {
   return {

@@ -2,8 +2,8 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import type SessionService from 'key/services/session';
-import type { UserResponse } from 'key/types/github-rest';
-import { trimUserData } from 'key/utils.ts/github-rest';
+import type { UserResponse } from 'key/types/github';
+import { trimUserData } from 'key/utils.ts/github';
 import { Authenticator } from 'key/authenticators/github-pat';
 
 export default class TokenManagerService extends Service {

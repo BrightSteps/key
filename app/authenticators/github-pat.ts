@@ -1,8 +1,8 @@
 import Base from 'ember-simple-auth/authenticators/base';
 import { Promise } from 'rsvp';
-import type { UserResponse } from 'key/types/github-rest';
+import type { UserResponse } from 'key/types/github';
 import type { SessionData, TokenData } from 'key/types/auth';
-import { trimUserData } from 'key/utils.ts/github-rest';
+import { trimUserData } from 'key/utils.ts/github';
 import type RouterService from '@ember/routing/router-service';
 import { service } from '@ember/service';
 

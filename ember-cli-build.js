@@ -9,20 +9,5 @@ module.exports = function (defaults) {
     // Add options here
   });
 
-  const { Webpack } = require('@embroider/webpack');
-
-  return require('@embroider/compat').compatBuild(app, Webpack, {
-    packagerOptions: {
-      webpackConfig: {
-        module: {
-          rules: [
-            {
-              test: /\.css$/i,
-              use: ['postcss-loader'],
-            },
-          ],
-        },
-      },
-    },
-  });
+  return app.toTree();
 };
