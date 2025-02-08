@@ -3,7 +3,16 @@ import { inject as service } from '@ember/service';
 import type SessionService from 'key/services/session';
 import { action } from '@ember/object';
 
-export default class TokensIndexComponent extends Component {
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface Args {}
+interface TokensIndexComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class TokensIndexComponent extends Component<
+  TokensIndexComponentInterface<Args>
+> {
   @service('session') declare sessionService: SessionService;
   isInvalidating: boolean = false;
 
@@ -19,5 +28,11 @@ export default class TokensIndexComponent extends Component {
     } finally {
       this.isInvalidating = false;
     }
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    Tokens: typeof TokensIndexComponent;
   }
 }

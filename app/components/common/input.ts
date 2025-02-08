@@ -22,7 +22,14 @@ interface Args {
   inputClasses?: string;
 }
 
-export default class CommonInputComponent extends Component<Args> {
+interface CommonInputComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class CommonInputComponent extends Component<
+  CommonInputComponentInterface<Args>
+> {
   @tracked value = this.initialValueBasedOnType();
 
   get type() {
@@ -72,5 +79,11 @@ export default class CommonInputComponent extends Component<Args> {
     const target = event.target as HTMLInputElement;
     this.value = target?.value.trim() ?? ''; // TODO DOMPurify.sanitize(value)
     this.args.onValueChange(this.value);
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Common::Input': typeof CommonInputComponent;
   }
 }

@@ -9,10 +9,21 @@ import type { TokenData } from 'key/types/auth';
 import { debounce } from '@ember/runloop';
 import { FilterModel, Privacy } from './list/filter';
 
+export interface LanguageOption {
+  value: string;
+  activeClass: string;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Args {}
 
-export default class ReposExplorerComponent extends Component<Args> {
+interface ReposExplorerComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+export default class ReposExplorerComponent extends Component<
+  ReposExplorerComponentInterface<Args>
+> {
   @service('session') declare sessionService: SessionService;
   @service('ui-helper') declare uiHelperService: UiHelperService;
   @service('github') declare githubService: GithubService;
@@ -96,7 +107,7 @@ export default class ReposExplorerComponent extends Component<Args> {
     );
   }
 
-  get languageOptions() {
+  get languageOptions(): LanguageOption[] {
     let allLanguages = this.visibleRepos.flatMap((repo) =>
       repo.languages ? Object.keys(repo.languages) : []
     );
@@ -133,5 +144,10 @@ export default class ReposExplorerComponent extends Component<Args> {
     } else {
       this.isLoading = false;
     }
+  }
+}
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Repos::Explorer': typeof ReposExplorerComponent;
   }
 }

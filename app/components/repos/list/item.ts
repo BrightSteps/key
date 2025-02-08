@@ -1,8 +1,18 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import type { Repo } from 'key/models/custom/repo';
 
-export default class ReposListItemComponent extends Component {
+interface Args {
+  repo: Repo;
+}
+interface ReposListItemComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+export default class ReposListItemComponent extends Component<
+  ReposListItemComponentInterface<Args>
+> {
   @tracked isExpanded = false;
 
   get activeClass() {
@@ -12,5 +22,11 @@ export default class ReposListItemComponent extends Component {
   @action
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Repos::List::Item': typeof ReposListItemComponent;
   }
 }

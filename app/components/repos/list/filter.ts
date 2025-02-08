@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import type { LanguageOption } from '../explorer';
 
 export const enum Privacy {
   PUBLIC = 'Public',
@@ -10,10 +11,17 @@ export const enum Privacy {
 
 interface Args {
   model: FilterModel;
-  languageOptions: string[];
+  languageOptions: LanguageOption[];
 }
 
-export default class ReposListFilterComponent extends Component<Args> {
+interface ReposListFilterComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class ReposListFilterComponent extends Component<
+  ReposListFilterComponentInterface<Args>
+> {
   classForPrivateFilter =
     'px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-sky-100';
 
@@ -34,7 +42,7 @@ export default class ReposListFilterComponent extends Component<Args> {
   }
 
   @action
-  changeLanguageFilter(value: Privacy) {
+  changeLanguageFilter(value: string) {
     this.args.model.language = value;
   }
 }
@@ -46,5 +54,11 @@ export class FilterModel {
   constructor() {
     this.privacy = Privacy.ALL;
     this.language = 'All';
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Repos::List::Filter': typeof ReposListFilterComponent;
   }
 }

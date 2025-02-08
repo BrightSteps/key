@@ -13,7 +13,14 @@ interface Args {
   showCtaInstead?: boolean;
 }
 
-export default class TokensAddComponent extends Component<Args> {
+interface TokensAddComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class TokensAddComponent extends Component<
+  TokensAddComponentInterface<Args>
+> {
   @service('session') declare sessionService: SessionService;
   linkTo: string;
 
@@ -66,5 +73,10 @@ export default class TokensAddComponent extends Component<Args> {
     request
       .then(handleSuccess)
       .catch(() => handleError('Failed to add token. Please try again.'));
+  }
+}
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Tokens::Add': typeof TokensAddComponent;
   }
 }

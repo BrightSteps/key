@@ -10,7 +10,14 @@ interface Args {
   onTokenChange: (value: string) => void;
 }
 
-export default class ReposSearchComponent extends Component<Args> {
+interface ReposSearchComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class ReposSearchComponent extends Component<
+  ReposSearchComponentInterface<Args>
+> {
   @service('session') declare sessionService: CustomSessionService;
 
   @tracked organizationName = '';
@@ -37,5 +44,11 @@ export default class ReposSearchComponent extends Component<Args> {
     const target = event.target as HTMLInputElement;
     this.token = target?.value.trim() ?? '';
     this.args.onTokenChange(this.token);
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Repos::Search': typeof ReposSearchComponent;
   }
 }

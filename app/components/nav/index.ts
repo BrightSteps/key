@@ -36,7 +36,16 @@ const navigationLinks: NavigationLink[] = Object.entries(routeDetails).map(
   }
 );
 
-export default class NavIndexComponent extends Component {
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface Args {}
+interface NavIndexComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class NavIndexComponent extends Component<
+  NavIndexComponentInterface<Args>
+> {
   @service('session') declare sessionService: SessionService;
   @service('router') declare routerService: RouterService;
 
@@ -80,5 +89,11 @@ export default class NavIndexComponent extends Component {
   @action
   addToken() {
     this.routerService.transitionTo(RouteName.ADD_TOKEN);
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    Nav: typeof NavIndexComponent;
   }
 }

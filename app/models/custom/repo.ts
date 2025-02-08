@@ -1,6 +1,8 @@
 import { tracked } from '@glimmer/tracking';
 import type { Languages, Repo as RepoObj } from 'key/types/github';
 
+export type LanguagesType = Languages | null | undefined;
+
 export class Repo {
   id;
   name;
@@ -8,7 +10,7 @@ export class Repo {
   isPrivate;
   organizationName;
   @tracked branches: string[] | null | undefined = undefined;
-  @tracked languages: Languages | null | undefined = undefined;
+  @tracked languages: LanguagesType = undefined;
   @tracked requestedBy;
 
   constructor(repo: RepoObj, organizationName: string, requestedBy: string) {
