@@ -2,6 +2,7 @@ import type { TOC } from '@ember/component/template-only';
 
 interface IconsLogoComponentInterface {
   Element: HTMLDivElement;
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   Args: {};
 }
 

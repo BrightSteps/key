@@ -18,8 +18,6 @@
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\" --prefixColors auto",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
-    "lint:gts-template": "ember-template-lint **/*.gts --config-path .template-gts-lintrc.js",
-    "lint:gts-template:fix": "ember-template-lint **/*.gts --config-path .template-gts-lintrc.js --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",

@@ -13,7 +13,7 @@ module.exports = {
       files: '*.{gjs,gts}',
       options: {
         singleQuote: true,
-        templateSingleQuote: false,
+        templateSingleQuote: true,
       },
     },
   ],
