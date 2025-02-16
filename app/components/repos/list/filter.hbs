@@ -17,7 +17,7 @@
     <div
       class='flex space-x-2 items-center justify-left w-full flex-wrap gap-y-2 mb-4'
     >
-      {{#each @languageOptions as |option|}}
+      {{#each this.languageOptions as |option|}}
         <button
           type='button'
           {{on 'click' (fn this.changeLanguageFilter option.value)}}
@@ -29,4 +29,15 @@
       {{/each}}
     </div>
   {{/if}}
+
+  {{#if this.isRepoDataIncomplete}}
+    <p class='text-gray-600 flex gap-2 mb-6'>Loading additonal repo details
+      <div role='status'>
+        <Icons::Spinner />
+        <span class='sr-only'>Loading...</span>
+      </div>
+    </p>
+  {{/if}}
+
+  {{yield this.visibleRepos}}
 </div>

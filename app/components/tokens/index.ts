@@ -26,6 +26,8 @@ export default class TokensIndexComponent extends Component<
     this.isInvalidating = true;
     try {
       await this.sessionService.invalidateToken(tokenToRemove);
+    } catch (error) {
+      console.error('Could not remove token', error);
     } finally {
       this.isInvalidating = false;
     }

@@ -23,26 +23,14 @@
       <p class='error text-red-600'>{{this.errorMessage}}</p>
     {{else if this.isAuthenticated}}
       <div>
-        <Repos::List::Filter
-          @model={{this.filter}}
-          @languageOptions={{this.languageOptions}}
-        />
-        {{#if this.isRepoDataIncomplete}}
-          <p class='text-gray-600 flex gap-2 mb-6'>Loading additonal repo
-            details
-            <div role='status'>
-              <Icons::Spinner />
-              <span class='sr-only'>Loading...</span>
-            </div>
-          </p>
-        {{/if}}
+        <Repos::List::Filter @allRepos={{this.allRepos}} as |visibleRepos|>
+          {{#if visibleRepos.length}}
+            <Repos::List @repos={{visibleRepos}} />
+          {{else}}
+            No results found...
+          {{/if}}
+        </Repos::List::Filter>
       </div>
-
-      {{#if this.visibleRepos.length}}
-        <Repos::List @repos={{this.visibleRepos}} />
-      {{else}}
-        No results found...
-      {{/if}}
     {{else}}
       <Tokens::Add
         @heading='Small detail before we start searching...'
