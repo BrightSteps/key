@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import { FilterModel, Privacy } from 'key/components/repos//list/filter';
+import { FilterModel, Privacy } from 'key/components/repos/list/filter';
 
 import type GithubService from 'key/services/github';
 import type SessionService from 'key/services/session';
