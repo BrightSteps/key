@@ -12,18 +12,14 @@
  *     npx eslint --inspect-config
  *
  */
-import globals from 'globals';
+import babelParser from '@babel/eslint-parser';
 import js from '@eslint/js';
-
-import ts from 'typescript-eslint';
-
 import ember from 'eslint-plugin-ember/recommended';
-
+import n from 'eslint-plugin-n';
 import prettier from 'eslint-plugin-prettier/recommended';
 import qunit from 'eslint-plugin-qunit';
-import n from 'eslint-plugin-n';
-
-import babelParser from '@babel/eslint-parser';
+import globals from 'globals';
+import ts from 'typescript-eslint';
 
 const parserOptions = {
   esm: {

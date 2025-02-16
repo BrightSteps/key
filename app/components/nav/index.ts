@@ -1,8 +1,9 @@
-import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
-import type SessionService from 'key/services/session';
-import type RouterService from '@ember/routing/router-service';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+
+import type SessionService from 'key/services/session';
 
 export const enum RouteName {
   INDEX = 'index',

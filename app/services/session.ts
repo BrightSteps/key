@@ -1,4 +1,5 @@
 import SimpleAuthSessionService from 'ember-simple-auth/services/session';
+
 import { Authenticator } from 'key/authenticators/github-pat';
 import type { AuthenticatorType } from 'key/authenticators/github-pat';
 import type { TokenData } from 'key/types/auth';

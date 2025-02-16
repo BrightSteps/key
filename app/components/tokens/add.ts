@@ -1,10 +1,13 @@
-import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+
+import { RouteName } from 'key/components/nav';
+
 import type SessionService from 'key/services/session';
+
 import { Authenticator } from 'key/authenticators/github-pat';
-import { RouteName } from '../nav';
 
 interface Args {
   heading: string;

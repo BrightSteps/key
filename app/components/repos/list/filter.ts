@@ -1,7 +1,8 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import type { LanguageOption } from '../explorer';
+
+import type { LanguageOption } from 'key/components/repos/explorer';
 
 export const enum Privacy {
   PUBLIC = 'Public',

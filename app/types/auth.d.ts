@@ -1,4 +1,4 @@
-import type { User } from './github';
+import type { User } from 'key/types/github';
 
 interface TokenData {
   id: string;

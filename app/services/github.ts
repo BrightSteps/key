@@ -1,8 +1,10 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+
 import { Repo } from 'key/models/custom/repo';
-import type { Branch, GetRepoResponse, Languages } from 'key/types/github';
+
 import type { TokenData } from 'key/types/auth';
+import type { Branch, GetRepoResponse, Languages } from 'key/types/github';
 import { promiseSequence } from 'key/utils.ts/github';
 
 type RequestPromiseCache = {

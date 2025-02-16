@@ -1,7 +1,8 @@
-import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
-import type SessionService from 'key/services/session';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+
+import type SessionService from 'key/services/session';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Args {}

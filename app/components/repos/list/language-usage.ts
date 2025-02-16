@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+
 import type { LanguagesType } from 'key/models/custom/repo';
 
 interface LanguageUsageObj {
