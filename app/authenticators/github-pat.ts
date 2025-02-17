@@ -4,11 +4,12 @@ import { service } from '@ember/service';
 import Base from 'ember-simple-auth/authenticators/base';
 import { Promise } from 'rsvp';
 
+import { trimUserData } from 'key/utils/github';
+
 import type GithubService from 'key/services/github';
 
 import type { SessionData, TokenData } from 'key/types/auth';
 import type { UserResponse } from 'key/types/github';
-import { trimUserData } from 'key/utils/github';
 
 export const Authenticator = 'authenticator:github-pat';
 export type AuthenticatorType = typeof Authenticator;
