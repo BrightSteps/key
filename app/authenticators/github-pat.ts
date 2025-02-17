@@ -8,7 +8,7 @@ import type GithubService from 'key/services/github';
 
 import type { SessionData, TokenData } from 'key/types/auth';
 import type { UserResponse } from 'key/types/github';
-import { trimUserData } from 'key/utils.ts/github';
+import { trimUserData } from 'key/utils/github';
 
 export const Authenticator = 'authenticator:github-pat';
 export type AuthenticatorType = typeof Authenticator;
