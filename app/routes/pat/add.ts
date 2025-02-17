@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+
 import type SessionService from 'key/services/session';
 
 export default class PatAddRoute extends Route {

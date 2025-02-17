@@ -1,8 +1,9 @@
-import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
-import type SessionService from 'key/services/session';
-import type RouterService from '@ember/routing/router-service';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+
+import type SessionService from 'key/services/session';
 
 export const enum RouteName {
   INDEX = 'index',
@@ -36,7 +37,16 @@ const navigationLinks: NavigationLink[] = Object.entries(routeDetails).map(
   }
 );
 
-export default class NavIndexComponent extends Component {
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface Args {}
+interface NavIndexComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class NavIndexComponent extends Component<
+  NavIndexComponentInterface<Args>
+> {
   @service('session') declare sessionService: SessionService;
   @service('router') declare routerService: RouterService;
 
@@ -80,5 +90,11 @@ export default class NavIndexComponent extends Component {
   @action
   addToken() {
     this.routerService.transitionTo(RouteName.ADD_TOKEN);
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    Nav: typeof NavIndexComponent;
   }
 }

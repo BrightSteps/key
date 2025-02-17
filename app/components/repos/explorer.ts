@@ -1,18 +1,30 @@
-import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
-import type SessionService from 'key/services/session';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import type UiHelperService from 'key/services/ui-helper';
-import type GithubService from 'key/services/github';
-import type { TokenData } from 'key/types/auth';
 import { debounce } from '@ember/runloop';
-import { FilterModel, Privacy } from './list/filter';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+
+import type GithubService from 'key/services/github';
+import type SessionService from 'key/services/session';
+import type UiHelperService from 'key/services/ui-helper';
+
+import type { TokenData } from 'key/types/auth';
+
+export interface LanguageOption {
+  value: string;
+  activeClass: string;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Args {}
 
-export default class ReposExplorerComponent extends Component<Args> {
+interface ReposExplorerComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+export default class ReposExplorerComponent extends Component<
+  ReposExplorerComponentInterface<Args>
+> {
   @service('session') declare sessionService: SessionService;
   @service('ui-helper') declare uiHelperService: UiHelperService;
   @service('github') declare githubService: GithubService;
@@ -21,16 +33,28 @@ export default class ReposExplorerComponent extends Component<Args> {
   @tracked token: TokenData | null;
   @tracked isLoading = false;
   @tracked errorMessage: string | null = null;
-  filter: FilterModel;
 
   constructor(owner: unknown, args: Args) {
     super(owner, args);
     this.token = this.sessionService.tokens[0] || null;
-    this.filter = new FilterModel();
+  }
+
+  get isAuthenticated() {
+    return this.sessionService.isAuthenticated;
   }
 
   get tokenUserLogin() {
     return this.token?.user.login ?? '';
+  }
+
+  get allRepos() {
+    const results = this.githubService.repos.filter((repo) => {
+      return (
+        repo.requestedBy.has(this.tokenUserLogin) &&
+        repo.organizationName === this.organizationName
+      );
+    });
+    return results;
   }
 
   @action
@@ -56,64 +80,6 @@ export default class ReposExplorerComponent extends Component<Args> {
     debounce(this, this.search, 1000);
   }
 
-  get allRepos() {
-    const results = this.githubService.repos.filter((repo) => {
-      return (
-        repo.requestedBy.has(this.tokenUserLogin) &&
-        repo.organizationName === this.organizationName
-      );
-    });
-    return results;
-  }
-
-  get visibleRepos() {
-    let filtered = this.allRepos.filter((repo) => {
-      if (this.filter.privacy === Privacy.PUBLIC) {
-        return !repo.isPrivate;
-      } else if (this.filter.privacy === Privacy.PRIVATE) {
-        return repo.isPrivate;
-      }
-
-      return true;
-    });
-
-    filtered = filtered.filter((repo) =>
-      this.filter.language === 'All'
-        ? true
-        : repo.languagesArray?.some((l) => l === this.filter.language)
-    );
-
-    return filtered;
-  }
-
-  get isAuthenticated() {
-    return this.sessionService.isAuthenticated;
-  }
-
-  get isRepoDataIncomplete() {
-    return this.allRepos.some(
-      (repo) => repo.languages === undefined || repo.branches === undefined
-    );
-  }
-
-  get languageOptions() {
-    let allLanguages = this.visibleRepos.flatMap((repo) =>
-      repo.languages ? Object.keys(repo.languages) : []
-    );
-
-    const languageSet = new Set(allLanguages);
-
-    allLanguages =
-      this.filter.language === 'All' || languageSet.has(this.filter.language)
-        ? [...languageSet]
-        : [this.filter.language, ...languageSet];
-
-    return ['All', ...allLanguages].map((language) => ({
-      value: language,
-      activeClass: language === this.filter.language ? '!bg-sky-200' : '',
-    }));
-  }
-
   @action
   search() {
     if (this.isAuthenticated && this.organizationName) {
@@ -133,5 +99,10 @@ export default class ReposExplorerComponent extends Component<Args> {
     } else {
       this.isLoading = false;
     }
+  }
+}
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Repos::Explorer': typeof ReposExplorerComponent;
   }
 }

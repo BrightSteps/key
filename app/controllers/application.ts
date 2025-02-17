@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { getOwner } from '@ember/owner';
+
 import Ember from 'ember';
 
 type Lookup = `${string}:${string}`;

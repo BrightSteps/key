@@ -1,16 +1,23 @@
 import Component from '@glimmer/component';
-import type { Languages } from 'key/types/github';
 
-interface LanguageUsageArgs {
-  languages: Languages;
-}
+import type { LanguagesType } from 'key/models/custom/repo';
 
 interface LanguageUsageObj {
   language: string;
   percentage: number;
 }
+interface LanguageUsageArgs {
+  languages: LanguagesType;
+}
 
-export default class ReposListLanguageUsage extends Component<LanguageUsageArgs> {
+interface ReposListLanguageUsageComponentInterface<T> {
+  Args: T;
+  Blocks: { default: [] }; // this is needed for yield
+}
+
+export default class ReposListLanguageUsageComponent extends Component<
+  ReposListLanguageUsageComponentInterface<LanguageUsageArgs>
+> {
   languagePercentages: LanguageUsageObj[] = [];
 
   constructor(owner: unknown, args: LanguageUsageArgs) {
@@ -36,5 +43,11 @@ export default class ReposListLanguageUsage extends Component<LanguageUsageArgs>
         percentage: parseFloat(((value / total) * 100).toFixed(2)),
       })
     );
+  }
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    'Repos::List::LanguageUsage': typeof ReposListLanguageUsageComponent;
   }
 }
